@@ -1,6 +1,5 @@
 '''Automated morse code sender through morse chat interface 
 '''
-
 from selenium import webdriver
 import time 
 from selenium.webdriver.common.action_chains import ActionChains
@@ -19,16 +18,17 @@ MORSE_CODE_DICT = { 'A':'.-', 'B':'-...',
    '1':'.----', '2':'..---', '3':'...--',
    '4':'....-', '5':'.....', '6':'-....',
    '7':'--...', '8':'---..', '9':'----.',
-   '0':'-----', ', ':'--..--', '.':'.-.-.-',
+   '0':'-----', ',':'--..--', '.':'.-.-.-',
    '?':'..--..', '/':'-..-.', '-':'-....-',
-   '(':'-.--.', ')':'-.--.-'
+   '(':'-.--.', ')':'-.--.-','!' : '---.',
+    ':': '---...',"'" : '.----.','@' : '.--.-.',
+    '=' : '-...-'
 }
 
 browser = webdriver.Firefox()
 browser.get('http://morsecode.me/?room=1')
 
 button = browser.find_element_by_id("key")
-#browser.execute_script("window.scrollTo(0, window.scrollY + 200)")
 
 action_key_down_w = ActionChains(browser).key_down(Keys.RETURN)
 action_key_up_w = ActionChains(browser).key_up(Keys.RETURN)
@@ -77,11 +77,12 @@ shortT = 0.08               # 80 ms
 longT = 0.3                # 100ms
 spaceT = 0.4
 
-message = "Hello  Im greta tuneberg"
-# text we convert to morse code
+message = "Hello  Im greta tuneberg" # text we convert to morse code
 result = encrypt(message.upper()) 
 print("Text encripted to morse : ",result)
+
 message = result.replace(" ", "*")
+
 testMessage = message.split()
 
 print("splitted ",testMessage)
@@ -89,10 +90,12 @@ print("splitted ",testMessage)
 def send_morse(complete_message):
     for message in complete_message:
         for char in message:
-            if message == "." :
 
+            if message == "." :
+                
                 action_key_down_w.perform()  #keydown press
                 action_key_up_w.perform()
+               
 
             elif message == "-" :  # LONG PRESS
                 action_key_down_w.perform()
@@ -103,18 +106,30 @@ def send_morse(complete_message):
                 time.sleep(longT)    
 
         time.sleep(0.05) #time between letters    
-                  
-while True:
-    for msg in testMessage:
-        send_morse(msg)
-        print("sending now " ,msg)
-        time.sleep(spaceT)
-    time.sleep(2)
-    print("Message transmission completed") 
-    #########################################
-    message = raw_input("Please enter something: ")   
-    result = encrypt(message.upper()) 
-    print("Text encripted to morse : ",result)
-    message = result.replace(" ", "*")
-    testMessage = message.split()
+
+try:
+    while True:
+        time.sleep(0.5)
+        for msg in testMessage:
+            send_morse(msg)
+            print("sending now " ,msg)
+            time.sleep(spaceT)
+        time.sleep(0.5)
+
+        print("-")
+        print("--") 
+        print("Message transmission completed")
+        print("--")
+        print("-") 
+
+        message = input("enter your message: ")   
+        result = encrypt(message.upper()) 
+        print("Text encoded into morse : ",result)
+        message = result.replace(" ", "*")
+        testMessage = message.split()
+
+except KeyboardInterrupt :
+    print('Interrupted')
+    browser.quit()
+
      
