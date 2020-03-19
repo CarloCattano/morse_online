@@ -5,3 +5,5 @@
 ### [geckodriver](https://github.com/mozilla/geckodriver/releases) , and [Firefox webDriver](https://developer.mozilla.org/en-US/docs/Web/WebDriver) must be in your PATH
 
 <a href="url"><img src="https://github.com/CarloCattano/morse_online/blob/master/Screenshot/greta.PNG?raw=true" align="center" height="400" width="600" ></a>
+
+#### adapted to work with selenium from [this code tutorial](https://www.geeksforgeeks.org/morse-code-translator-python/)
