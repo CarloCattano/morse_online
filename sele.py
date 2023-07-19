@@ -27,7 +27,7 @@ MORSE_CODE_DICT = { 'A':'.-', 'B':'-...',
 }
 
 browser = webdriver.Firefox()
-browser.get('http://morsecode.me/?room=2')
+browser.get('https://morsecode.me/?room=2#/rooms/3')
 WebDriverWait(browser, 2).until(EC.presence_of_element_located((By.XPATH, "/html/body/div/div/div/div[3]/div")))
 
 def encrypt(message): 
@@ -59,27 +59,27 @@ def decrypt(message):
 
     return decipher 
 
-shortT = 0.08  
-longT = 0.2
+shortT = 0.06  
+longT = 0.18
 
 def send_morse(complete_message):
     for message in complete_message:
         for char in message:
             if message == "." :
                 ActionChains(browser).key_down(Keys.SPACE).key_up(Keys.SPACE).perform()
-                time.sleep(0.02)   
+                time.sleep(0.01)   
             elif message == "-" :                               # LONG PRESS
                 ActionChains(browser).key_down(Keys.SPACE).perform()
                 time.sleep(longT)
                 ActionChains(browser).key_up(Keys.SPACE).perform()
-                time.sleep(0.02)   
+                time.sleep(0.01)   
             elif message == "*":
-                time.sleep(longT+0.2)
+                time.sleep(longT+0.1)
                                   
 
 def main():
     try:
-        message = "int err upt"
+        message = "he llo world"
         result = encrypt(message.upper())
         message = result.replace(" ", "*")
         testMessage = message.split()
@@ -89,6 +89,7 @@ def main():
                 send_morse(msg)
                 time.sleep(longT+0.12)
             
+            ActionChains(browser).key_down(Keys.RETURN).key_up(Keys.RETURN).perform()
             message = input("enter your message: ")
             result = encrypt(message.upper()) 
             message = result.replace(" ", "*")  
